@@ -1,2 +1,0 @@
-title					book.category					book.author_1					book.author_2					
-					WEB										Per Bothner					
