@@ -26,7 +26,13 @@ import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * The class implements the org.eclipse.datatools.connectivity.oda.IResultSet interface 
+ * Implementation class of IResultSet for an ODA runtime driver.
+ * <br>
+ * For demo purpose, the auto-generated method stubs have
+ * hard-coded implementation that returns a pre-defined set
+ * of meta-data and query results.
+ * A custom ODA driver is expected to implement own data source specific
+ * behavior in its place. 
  */
 public class ResultSet implements IResultSet
 {
