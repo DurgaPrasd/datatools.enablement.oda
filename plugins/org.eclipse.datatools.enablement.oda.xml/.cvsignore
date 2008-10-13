@@ -1,6 +1,0 @@
-bin
-download
-*.jar
-*.zip
-utestreports
-build*.xml
