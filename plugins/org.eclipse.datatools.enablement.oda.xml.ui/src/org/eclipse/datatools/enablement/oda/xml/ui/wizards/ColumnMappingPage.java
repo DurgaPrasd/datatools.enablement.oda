@@ -105,7 +105,6 @@ public class ColumnMappingPage extends DataSetWizardPage
 	private String xsdFileName;
 	private String xmlFileName;
 	private String xmlEncoding;
-	private String nameSpace;
 	private Map columnMap;
 	private List columnMappingList = new ArrayList( );
 
@@ -1297,12 +1296,14 @@ public class ColumnMappingPage extends DataSetWizardPage
 					rowStr = rowStr + COMMA;                               
 				queryString = queryString + rowStr;
 			}
-			if ( getNamespace( ).length( ) == 0 )
+			String nameSpaceString = getNamespace( );
+			if ( nameSpaceString == null
+					|| nameSpaceString.trim( ).length( ) == 0 )
 				return queryString;
 			else
 				return queryString
 						+ RelationInformation.CONST_TABLE_COLUMN_DELIMITER
-						+ this.nameSpace;
+						+ nameSpaceString;
 		}
 		return null;
 	}
@@ -1500,10 +1501,6 @@ public class ColumnMappingPage extends DataSetWizardPage
 	 */
 	private String getNamespace( )
 	{
-		if( this.nameSpace != null )
-		{
-			return this.nameSpace;
-		}		
 		Map prefixMapping = null;
 		boolean start = true;
 		try{
@@ -1546,8 +1543,7 @@ public class ColumnMappingPage extends DataSetWizardPage
 			}
 			nameSpaceBuf.append( RIGHT_SHARP_ANGLED_BRACKET );
 		}
-		this.nameSpace = nameSpaceBuf.toString( ).trim( );
-		return this.nameSpace;
+		return nameSpaceBuf.toString( );
 	}
 	
 	protected void updateDesign( DataSetDesign dataSetDesign )
