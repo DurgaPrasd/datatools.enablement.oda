@@ -364,6 +364,10 @@ public class SOAPParametersPage extends DataSetWizardPage
 						soapParameters[i].isUsed( ) );
 			}
 		}
+		else
+		{
+			viewer.setInput( new SOAPParameter[0] );
+		}
 	}
 
 	/*
