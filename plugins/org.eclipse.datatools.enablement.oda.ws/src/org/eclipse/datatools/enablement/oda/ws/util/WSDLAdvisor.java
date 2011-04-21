@@ -214,9 +214,9 @@ public class WSDLAdvisor
 	 */
 	public static String retrieveDocument( Operation operation )
 	{
-		StringBuffer result = new StringBuffer( );
+		String result = EMPTY_STRING;
 		if ( WSUtil.isNull( operation ) )
-			return result.toString( );
+			return result;
 
 		Element element = operation.getDocumentationElement( );
 		if ( !WSUtil.isNull( element ) )
@@ -228,11 +228,11 @@ public class WSDLAdvisor
 				if ( node.getNodeType( ) != Node.TEXT_NODE )
 					continue;
 
-				result.append( node.getNodeValue( ) );
+				result += node.getNodeValue( );
 			}
 		}
 
-		return result.toString( );
+		return result;
 	}
 
 	private static BindingOperation getBindingOperation( String wsdlURI,
@@ -333,11 +333,11 @@ public class WSDLAdvisor
 
 	private static String tab( int num )
 	{
-		StringBuffer tabs = new StringBuffer(); //$NON-NLS-1$
+		String tabs = ""; //$NON-NLS-1$
 		for ( int i = 0; i < num; i++ )
-			tabs.append( "\t" ); //$NON-NLS-1$
+			tabs += "\t"; //$NON-NLS-1$
 
-		return tabs.toString( );
+		return tabs;
 	}
 
 	private static String buildNamespaceDeclarations( )
@@ -349,17 +349,17 @@ public class WSDLAdvisor
 		checkNamespace( namespaceURIs, NS_KEY_XSI, NS_XSI );
 		checkNamespace( namespaceURIs, NS_KEY_XSD, NS_XSD );
 
-		StringBuffer result = new StringBuffer();
+		String result = EMPTY_STRING;
 		Set uris = namespaceURIs.keySet( );
 		Iterator iterator = uris.iterator( );
 		while ( iterator.hasNext( ) )
 		{
 			String uri = (String) iterator.next( );
 			String prefix = (String) namespaceURIs.get( uri );
-			result.append( enter( ) + "xmlns:" + prefix + "=\"" + uri + "\"" );//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			result += enter( ) + "xmlns:" + prefix + "=\"" + uri + "\"";//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		}
 
-		return result.toString( ) + ">"; //$NON-NLS-1$
+		return result + ">"; //$NON-NLS-1$
 	}
 
 	private static void checkNamespace( Map namespaceURIs, String namespace,
@@ -435,7 +435,7 @@ public class WSDLAdvisor
 								3,
 								inOrOutput );
 
-						if ( inOrOutput.equals( "in" ) )//$NON-NLS-1$
+						if ( inOrOutput == "in" )//$NON-NLS-1$
 						{
 							result += enter( )
 									+ tab( 2 )
@@ -669,7 +669,9 @@ public class WSDLAdvisor
 					elementList.add( ( (SchemaImpl) extElements.get( i ) ).getElement( ) );
 				}
 			}
-			
+			String[] parentNode = {
+				EMPTY_STRING
+			};
 			NodeList nodes = getChildNodes( elementList.toArray( new Element[0] ) );
 			Node XMLNode = findElementNodeByName( nodes, typeName );
 			if ( XMLNode != null )
@@ -1217,25 +1219,25 @@ public class WSDLAdvisor
 
 	private String builderResponseParameters( WSNonLeafNode newNode )
 	{
-		StringBuffer result = new StringBuffer();
+		String result = EMPTY_STRING;
 		List nodeList = newNode.getNodeList( );
 		for ( int i = 0; i < nodeList.size( ); i++ )
 		{
 			if ( nodeList.get( i ) instanceof WSLeafNode )
 			{
 				WSLeafNode leafnode = (WSLeafNode) nodeList.get( i );
-				result.append( enter( ) + "<" + leafnode.getName( ) + ">" //$NON-NLS-1$ //$NON-NLS-2$
-						+ "</" + leafnode.getName( ) + ">" ); //$NON-NLS-1$ //$NON-NLS-2$		
+				result += enter( ) + "<" + leafnode.getName( ) + ">" //$NON-NLS-1$ //$NON-NLS-2$
+						+ "</" + leafnode.getName( ) + ">"; //$NON-NLS-1$ //$NON-NLS-2$		
 			}
 			else if ( nodeList.get( i ) instanceof WSNonLeafNode )
 			{
 				WSNonLeafNode nonLeafnode = (WSNonLeafNode) nodeList.get( i );
-				result.append( enter( ) + "<" + nonLeafnode.getName( ) + ">" );//$NON-NLS-1$ //$NON-NLS-2$
-				result.append( builderResponseParameters( nonLeafnode ) );
-				result.append( enter( ) + "</" + nonLeafnode.getName( ) + ">" );//$NON-NLS-1$ //$NON-NLS-2$
+				result += enter( ) + "<" + nonLeafnode.getName( ) + ">";//$NON-NLS-1$ //$NON-NLS-2$
+				result += builderResponseParameters( nonLeafnode );
+				result += enter( ) + "</" + nonLeafnode.getName( ) + ">";//$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
-		return result.toString( );
+		return result;
 	}
 
 	/**
@@ -1488,7 +1490,7 @@ public class WSDLAdvisor
 				}
 				else
 				{
-					if ( inOrOutput.equals( "in" ) )//$NON-NLS-1$
+					if ( inOrOutput == "in" ) //$NON-NLS-1$
 					{
 						result += compositeSimpleInputParameter( part.getName( ),
 								part.getTypeName( ).getLocalPart( ) );
@@ -1740,7 +1742,7 @@ public class WSDLAdvisor
 			}
 			else
 			{
-				if ( inOrOutput.equals( "in" ) ) //$NON-NLS-1$
+				if ( inOrOutput == "in" ) //$NON-NLS-1$
 				{
 					result += enter( )
 							+ tab( tabCount ) + "<" + nameSpace + paramName //$NON-NLS-1$
@@ -1786,7 +1788,7 @@ public class WSDLAdvisor
 			{
 				WSNonLeafNode nonLeafnode = (WSNonLeafNode) subNode.get( i );
 
-				if ( inOrOutput.equals( "in" ) )  //$NON-NLS-1$
+				if ( inOrOutput == "in" ) //$NON-NLS-1$
 				{
 					result += enter( )
 							+ tab( tabCount )
@@ -1849,7 +1851,7 @@ public class WSDLAdvisor
 		}
 		else
 		{
-			if ( inOrOutput.equals( "in" ) ) //$NON-NLS-1$
+			if ( inOrOutput == "in" ) //$NON-NLS-1$
 			{
 				result += enter( )
 						+ tab( tabCount ) + "<" + nameSpace + paramName //$NON-NLS-1$ 
